@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!--bean标签：标识要创建的bean对象
+       id：在容器里bean的唯一标识
+       class：标识要创建bean对象的全类名-->
+    <bean id="person" class="com.myspring.bean.Person">
+        <!--property标签：给bean里的属性赋值使用property标签
+               name标识属性名称,name的内容，取决于setXXX方法中set之后的内容首字母小写
+               value标识属性值
+               -->
+        <property name="id" value="1"></property>
+        <property name="age" value="10"></property>
+        <property name="name" value="xiaoming"></property>
+        <property name="gender" value="男"></property>
+    </bean>
+
+    <bean id="person6" class="com.myspring.bean.Person">
+        <property name="id" value="6"></property>
+        <property name="name" value="person6"></property>
+        <property name="gender" value="男6"></property>
+        <property name="age" value="6"></property>
+        <!--property定义数组：给数组赋值-->
+        <!--写法1-->
+<!--
+        <property name="hobbies" value="Q,Book,Dog"></property>
+-->
+        <!--写法2-->
+        <property name="hobbies">
+            <array>
+                <value>book</value>
+                <value>Q</value>
+                <value>dog</value>
+            </array>
+        </property>
+
+        <!--property定义对象：在一个bean里，引入其他的外部bean（对象里的嵌套对象）-->
+        <property name="address" ref="address"></property>
+
+        <!--定义List，类似Array-->
+        <!--写法1：针对非对象类型的List（比如List<String>）,可以用value直接写，类似Array-->
+        <!--<property name="lists" value="1,2,3"></property>-->
+        <property name="lists">
+            <list>
+                <!--在list里定义bean对象，写法1-->
+                <bean class="com.myspring.bean.Address">
+                    <property name="city" value="榆林"></property>
+                    <property name="town" value="名州镇"></property>
+                </bean>
+                <!--在list里定义bean对象，写法2-->
+                <ref bean="address"></ref>
+            </list>
+        </property>
+
+        <!--property定义set：-->
+        <property name="sets">
+            <set>
+                <value>aa</value>
+                <value>aa</value>
+                <value>bb</value>
+            </set>
+        </property>
+
+        <!--property定义map:-->
+        <property name="maps">
+            <map>
+                <!--key-value 都是String类型 写法1（常用写法）-->
+                <entry key="StringKey" value="String-a"></entry>
+                <!--key-value 都是String类型 写法2-->
+                <entry>
+                    <key>
+                        <value>StringKey2</value>
+                    </key>
+                    <value>String-b</value>
+                </entry>
+                <!--value 为object,Object来源为Map外部，且IOC容器内的:就是引用了IOC容器定义的一个bean -->
+                <entry key="ObjectKey1" value-ref="address"></entry>
+                <!--value 为object,Object来源是Map中自定义的，不是从IOC容器中已经定义的bean里引用的；所以IOC容器用context.getBean是获取不到的-->
+                <entry key="ObjectKey2">
+                    <bean class="com.myspring.bean.Person">
+                        <property name="id" value="2"></property>
+                        <property name="name" value="Map测试"></property>
+                    </bean>
+                </entry>
+
+                <!--value 为set-->
+                <entry key="SetKey">
+                    <set>
+                        <value>11</value>
+                        <value>22</value>
+                    </set>
+                </entry>
+
+                <!--value 为list-->
+                <entry key="ListKey">
+                    <list>
+                        <value>33</value>
+                        <value>44</value>
+                    </list>
+                </entry>
+            </map>
+        </property>
+
+
+        <!--property定义properties类型，就是配置对象，或者说相当于XXX。properties文件一样，本质还是键值对-->
+        <property name="properties">
+            <props>
+                <prop key="ip">localhost</prop>
+                <prop key="port">8080</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="address" class="com.myspring.bean.Address">
+        <property name="city" value="成都"></property>
+        <property name="town" value="三台"></property>
+    </bean>
+
+    <!--可以使用abstract定义抽象bean,抽象bean无法实例化，无法使用context.getBean获取-->
+    <bean id="parentBean" class="com.myspring.bean.Address" abstract="false">
+        <property name="city" value="成都"></property>
+        <property name="town" value="三台"></property>
+    </bean>
+
+    <!--bean定义中 可以通过parent标签来获取父类的属性值-->
+    <bean id="sonBean" class="com.myspring.bean.Address" parent="parentBean">
+        <property name="city" value="榆林"></property>
+    </bean>
+
+    <!--当bean对象被创建时，顺序=在xml中配置的顺序，谁在先谁先被创建
+    怎么改：可以使用depends-on属性来进行
+    但是，一般工作中不需要在意这个顺序，原因是不管谁先谁后，都会在“bean对象创建完成之后”再被赋值-->
+    <bean id="beanTwo" class="com.myspring.bean.Address" depends-on="beanOne"></bean>
+    <bean id="beanOne" class="com.myspring.bean.Person"></bean>
+
+
+</beans>
