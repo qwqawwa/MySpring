@@ -125,4 +125,12 @@ public class Person {
                 ", properties=" + properties +
                 '}';
     }
+
+    public void init(){
+        System.out.println("Person对象初始化");
+    }
+
+    public void  destory(){
+        System.out.println("Person对象销毁");
+    }
 }

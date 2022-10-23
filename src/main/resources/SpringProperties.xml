@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
     <!--bean标签：标识要创建的bean对象
        id：在容器里bean的唯一标识
        class：标识要创建bean对象的全类名-->
@@ -133,6 +137,93 @@
     但是，一般工作中不需要在意这个顺序，原因是不管谁先谁后，都会在“bean对象创建完成之后”再被赋值-->
     <bean id="beanTwo" class="com.myspring.bean.Address" depends-on="beanOne"></bean>
     <bean id="beanOne" class="com.myspring.bean.Person"></bean>
+
+    <!--bean的作用域：singleton、prototype、request、session
+    使用scope属性定义
+    默认情况下是单例的
+    prototype：多实例的
+        容器启动的时候不会创建多实例bean，只有在获取对象的时候才会创建该对象
+        每次创建都是一个新的对象
+    singleton：默认的单例对象
+        在容器启动完成之前就已经创建好对象
+        获取的所有对象都是同一个-->
+    <bean id="singletonPerson" class="com.myspring.bean.Person" scope="singleton"></bean>
+
+    <!--利用工厂模式创建Bean-->
+    <!--总结
+     静态工厂：工厂本身不需要创建对象，但是可以通过静态方法调用，对象=工厂类.静态工厂方法名（）；
+     实例工厂：工厂本身需要创建对象，工厂类 工厂对象=new 工厂类；工厂对象.get对象名（）；
+     factory-bean:指定使用哪个工厂实例
+    factory-method:指定使用哪个工厂实例的方法
+    -->
+
+    <!--静态工厂模式:本质上相当于静态调用 类。方法   工厂静态类的类名。自己定义出来的getInstance()方法-->
+    <bean id="staticFactoryPerson" class="com.myspring.factory.PersonStaticFactory" factory-method="getInstance">
+        <constructor-arg value="XiaoMing"></constructor-arg>
+    </bean>
+
+    <!--实例工厂:本质上相当于 先创建工厂实例，然后调用工厂实例的方法，我们定义出来的getInstance-->
+    <bean id="instanceFactoryBean" class="com.myspring.factory.PersonInstanceFactory"></bean>
+    <bean id="instanceBeanPerson" class="com.myspring.bean.Person" factory-bean="instanceFactoryBean" factory-method="getInstance">
+        <constructor-arg value="XiaoEr"></constructor-arg>
+    </bean>
+
+    <!--使用factorybean创建实例-->
+    <bean id="MyFactoryBean" class="com.myspring.factory.MyFactoryBean"></bean>
+
+    <!--Bean对象的初始化和销毁;其实相当于就是一个初始化和销毁的事件，然后触发事件时调用我们定义的方法-->
+    <!--如果bean是单例Singleton，容器在启动的时候会创建好，容器关闭的时候会销毁创建的bean
+        如果bean是多例Prototype，获取的时候创建对象，销毁的时候不会有任何的调用-->
+    <bean id="initAndDestoryBean" class="com.myspring.bean.Person" init-method="init" destroy-method="destory"></bean>
+
+    <!--自定义增强类，MyBeanProcessor-->
+    <bean id="MyBeanProcessor" class="com.myspring.bean.MyBeanProcessor"></bean>
+    
+    <!--定义第三方组件Bean-->
+    <!--<bean id="MyDruidBean" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="root"></property>
+        <property name="password" value="root"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/XXXX"></property>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+    </bean>-->
+
+    <!--前置项：需要定义xml命名空间：context;可以在官网查xmlns:context-->
+    <!--读取properties文件里的配置-->
+    <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+    <bean id="propertiesBean" class="com.myspring.bean.Person">
+        <property name="id" value="100"></property>
+        <property name="name" value="${jdbc.username}"></property>
+    </bean>
+
+    <!--Spring的自动装配 Autowire-->
+    <!--当一个对象中需要引用另外一个对象的时候，在之前的配置中我们都是通过property标签来进行手动配置的，
+    其实在spring中还提供了一个非常强大的功能就是自动装配，可以按照我们指定的规则进行配置，配置的方式有以下几种：
+
+     default/no：不自动装配
+
+     byName：按照名字进行装配，以属性名作为id去容器中查找组件，进行赋值，如果找不到则装配null(是Bean的类本身的setXXX方法明有关，set方法后面的名称首字母小写决定的)
+
+     byType：按照类型进行装配,以属性的类型作为查找依据去容器中找到这个组件，如果有多个类型相同的bean对象，那么会报异常，如果找不到则装配null
+
+     constructor：按照构造器进行装配，先按照有参构造器参数的类型进行装配，没有就直接装配null；如果按照类型找到了多个，那么就使用参数名作为id继续匹配，找到就装配，找不到就装配null-->
+    <bean id="autowireBean" class="com.myspring.bean.Person" autowire="byName"></bean>
+
+
+    <!--使用Spring提供的语法：SpEL Spring Expression Language-->
+    <bean id="SpELBean" class="com.myspring.bean.Person">
+        <!--可以支持运算符-->
+        <property name="id" value="#{1*3+5}"></property>
+        <!--可以调用其他bean的属性-->
+        <property name="name" value="#{propertiesBean.name}"></property>
+        <!--可以调用外部bean-->
+        <property name="address" value="#{sonBean}"></property>
+        <!--可以调用静态方法-->
+        <property name="hobbies" value="#{T(java.util.UUID).randomUUID().toString()}"></property>
+        <!--可以调用非静态方法-->
+        <property name="gender" value="#{autowireBean.toString()}"></property>
+
+    </bean>
+
 
 
 </beans>
