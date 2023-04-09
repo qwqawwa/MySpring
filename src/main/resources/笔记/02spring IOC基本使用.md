@@ -1,8 +1,32 @@
+<!-- TOC depthFrom:3 orderedList:false -->
+
+- [一、spring_helloworld](#一spring_helloworld)
+        - [**(1)使用手动加载jar包的方式实现，分为三个步骤，现在几乎不用**](#1使用手动加载jar包的方式实现分为三个步骤现在几乎不用)
+        - [**(2)使用maven的方式来构建项目**](#2使用maven的方式来构建项目)
+- [二、spring对象的获取及属性赋值方式](#二spring对象的获取及属性赋值方式)
+        - [**1、通过bean的id获取IOC容器中的对象（上面已经用过）**](#1通过bean的id获取ioc容器中的对象上面已经用过)
+        - [**2、通过bean的类型获取对象**](#2通过bean的类型获取对象)
+        - [**3、通过构造器给bean对象赋值**](#3通过构造器给bean对象赋值)
+        - [**4、通过命名空间为bean赋值，简化配置文件中属性声明的写法**](#4通过命名空间为bean赋值简化配置文件中属性声明的写法)
+        - [**5、为复杂类型进行赋值操作**](#5为复杂类型进行赋值操作)
+        - [6、继承关系bean的配置](#6继承关系bean的配置)
+        - [7、bean对象创建的依赖关系](#7bean对象创建的依赖关系)
+        - [8、bean的作用域控制，是否是单例](#8bean的作用域控制是否是单例)
+        - [9、利用工厂模式创建bean对象](#9利用工厂模式创建bean对象)
+        - [10、继承FactoryBean来创建对象](#10继承factorybean来创建对象)
+        - [11、bean对象的初始化和销毁方法](#11bean对象的初始化和销毁方法)
+        - [12、配置bean对象初始化方法的前后处理方法](#12配置bean对象初始化方法的前后处理方法)
+- [三、spring创建第三方bean对象](#三spring创建第三方bean对象)
+- [四、spring引用外部配置文件](#四spring引用外部配置文件)
+- [五、spring基于xml文件的自动装配](#五spring基于xml文件的自动装配)
+- [六、SpEL的使用](#六spel的使用)
+
+<!-- /TOC -->
 # 02spring IOC基本使用
 
-​		通过前面的介绍我们已经知道了Spring中非常重要的一个特性就是IOC,下面我们将要来看一下如何使用IOC容器，帮助大家更好的体会spring的优势。
+​		通过前面的介绍我们已经知道了Spring中非常重要的一个特性就是IOC,下面我们将要来看一下如何使用IOC容器，帮助大家更好的体会spring的优势。1
 
-### 1、spring_helloworld
+### 一、spring_helloworld
 
 ##### **(1)使用手动加载jar包的方式实现，分为三个步骤，现在几乎不用**
 
@@ -250,7 +274,7 @@ public class MyTest {
 
 ​		5、对象的属性是由setter/getter方法决定的，而不是定义的成员属性
 
-### 2、spring对象的获取及属性赋值方式
+### 二、spring对象的获取及属性赋值方式
 
 ##### 		**1、通过bean的id获取IOC容器中的对象（上面已经用过）**
 
@@ -1054,7 +1078,7 @@ ioc.xml
 <bean id="myBeanPostProcessor" class="com.mashibing.bean.MyBeanPostProcessor"></bean>
 ```
 
-### 3、spring创建第三方bean对象
+### 三、spring创建第三方bean对象
 
 ​		在Spring中，很多对象都是单实例的，在日常的开发中，我们经常需要使用某些外部的单实例对象，例如数据库连接池，下面我们来讲解下如何在spring中创建第三方bean实例。
 
@@ -1116,7 +1140,7 @@ public class MyTest {
 }
 ```
 
-### 4、spring引用外部配置文件
+### 四、spring引用外部配置文件
 
 在resource中添加dbconfig.properties
 
@@ -1151,7 +1175,7 @@ driverClassName=com.mysql.jdbc.Driver
 </beans>
 ```
 
-### 5、spring基于xml文件的自动装配
+### 五、spring基于xml文件的自动装配
 
 ​		当一个对象中需要引用另外一个对象的时候，在之前的配置中我们都是通过property标签来进行手动配置的，其实在spring中还提供了一个非常强大的功能就是自动装配，可以按照我们指定的规则进行配置，配置的方式有以下几种：
 
@@ -1182,7 +1206,7 @@ ioc.xml
 </beans>
 ```
 
-### 6、SpEL的使用
+### 六、SpEL的使用
 
 ​		SpEL:Spring Expression Language,spring的表达式语言，支持运行时查询操作对象
 

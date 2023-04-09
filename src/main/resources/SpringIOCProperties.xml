@@ -22,6 +22,33 @@
     2、添加自动扫描注解的组件，此操作需要依赖context命名空间
     3、添加自动扫描的标签context:component-scan
    -->
-    <context:component-scan base-package="com.myspring"></context:component-scan>
+    <context:component-scan base-package="com.myspring">
+        <!--定义哪些包被扫描，哪些不扫描-->
+        <!--
+            当定义好基础扫描的包之后，可以排除包中的某些类，使用如下的方式:
+            exclude filter type:表示指定过滤的规则
+                annotation：按照注解进行排除，标注了指定注解的组件不要,expression表示要过滤的注解
+                assignable：指定排除某个具体的类，按照类排除，expression表示不注册的具体类名
+                aspectj：后面讲aop的时候说明要使用的aspectj表达式，不用
+                custom：定义一个typeFilter,自己写代码决定哪些类被过滤掉，一般不用
+                regex：使用正则表达式过滤，一般不用
+            include filter :一般不使用，因为正常情况下，已经把component-scan base-package整个包扫描进来了，所有的注解和类都会包含，只需要挑选要拍出的部分
+            但是如果是引入的第三方包包含注解，可以用include filter来标识
+            -->
+        <!-- <context:exclude-filter type="assignable" expression="com.myspring.controller.PersonController"/>-->
+        <!-- <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+
+
+    </context:component-scan>
+
+    <!--注意：当使用AutoWired注解的时候，自动装配的时候是根据类型ByType实现的。
+
+    1、如果只找到一个，则直接进行赋值，
+
+    2、如果没有找到，则直接抛出异常，
+
+    3、如果找到多个，那么会按照变量名作为id继续匹配(ByName),
+         1、匹配上直接进行装配
+         2、如果匹配不上则直接报异常-->
 
 </beans>
