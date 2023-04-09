@@ -1,3 +1,14 @@
+
+<!-- TOC depthFrom:2 orderedList:false -->
+
+- [1、使用注解的方式注册bean到IOC容器中](#1使用注解的方式注册bean到ioc容器中)
+- [2、定义扫描包时要包含的类和不要包含的类](#2定义扫描包时要包含的类和不要包含的类)
+- [3、使用@AutoWired进行自动注入](#3使用autowired进行自动注入)
+- [4、@AutoWired可以进行定义在方法上](#4autowired可以进行定义在方法上)
+- [5、自动装配的注解@AutoWired，@Resource](#5自动装配的注解autowiredresource)
+- [6、泛型依赖注入](#6泛型依赖注入)
+
+<!-- /TOC -->
 # 03SpringIOC的注解应用
 
 ​		在之前的项目中，我们都是通过xml文件进行bean或者某些属性的赋值，其实还有另外一种注解的方式，在企业开发中使用的很多，在bean上添加注解，可以快速的将bean注册到ioc容器。

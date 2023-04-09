@@ -1,4 +1,4 @@
-package com.myspring.bean;
+package com.myspring.annotation.bean;
 
 /**
  * @ClassName Teacher

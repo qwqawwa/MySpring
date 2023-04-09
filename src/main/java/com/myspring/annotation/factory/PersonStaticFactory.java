@@ -1,6 +1,6 @@
-package com.myspring.factory;
+package com.myspring.annotation.factory;
 
-import com.myspring.bean.Person;
+import com.myspring.annotation.bean.Person;
 
 /**
  * @ClassName PersonStaticFactory

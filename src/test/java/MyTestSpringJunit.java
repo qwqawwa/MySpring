@@ -1,7 +1,6 @@
-import com.myspring.controller.PersonController;
-import com.myspring.service.PersonService;
-import com.myspring.service.StudentService;
-import com.myspring.service.TeacherService;
+import com.myspring.annotation.controller.PersonController;
+import com.myspring.annotation.service.StudentService;
+import com.myspring.annotation.service.TeacherService;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

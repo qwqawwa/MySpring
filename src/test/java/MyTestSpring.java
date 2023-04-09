@@ -1,8 +1,7 @@
-import com.myspring.bean.Address;
-import com.myspring.bean.Person;
+import com.myspring.annotation.bean.Address;
+import com.myspring.annotation.bean.Person;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.alibaba.druid.pool.DruidDataSource;
 
 import java.sql.SQLException;
 

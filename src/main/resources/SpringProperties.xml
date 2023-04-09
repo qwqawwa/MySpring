@@ -48,7 +48,7 @@
         <property name="lists">
             <list>
                 <!--在list里定义bean对象，写法1-->
-                <bean class="com.myspring.bean.Address">
+                <bean class="com.myspring.annotation.bean.Address">
                     <property name="city" value="榆林"></property>
                     <property name="town" value="名州镇"></property>
                 </bean>
@@ -116,26 +116,26 @@
         </property>
     </bean>
 
-    <bean id="address" class="com.myspring.bean.Address">
+    <bean id="address" class="com.myspring.annotation.bean.Address">
         <property name="city" value="成都"></property>
         <property name="town" value="三台"></property>
     </bean>
 
     <!--可以使用abstract定义抽象bean,抽象bean无法实例化，无法使用context.getBean获取-->
-    <bean id="parentBean" class="com.myspring.bean.Address" abstract="false">
+    <bean id="parentBean" class="com.myspring.annotation.bean.Address" abstract="false">
         <property name="city" value="成都"></property>
         <property name="town" value="三台"></property>
     </bean>
 
     <!--bean定义中 可以通过parent标签来获取父类的属性值-->
-    <bean id="sonBean" class="com.myspring.bean.Address" parent="parentBean">
+    <bean id="sonBean" class="com.myspring.annotation.bean.Address" parent="parentBean">
         <property name="city" value="榆林"></property>
     </bean>
 
     <!--当bean对象被创建时，顺序=在xml中配置的顺序，谁在先谁先被创建
     怎么改：可以使用depends-on属性来进行
     但是，一般工作中不需要在意这个顺序，原因是不管谁先谁后，都会在“bean对象创建完成之后”再被赋值-->
-    <bean id="beanTwo" class="com.myspring.bean.Address" depends-on="beanOne"></bean>
+    <bean id="beanTwo" class="com.myspring.annotation.bean.Address" depends-on="beanOne"></bean>
     <bean id="beanOne" class="com.myspring.bean.Person"></bean>
 
     <!--bean的作用域：singleton、prototype、request、session
@@ -158,18 +158,18 @@
     -->
 
     <!--静态工厂模式:本质上相当于静态调用 类。方法   工厂静态类的类名。自己定义出来的getInstance()方法-->
-    <bean id="staticFactoryPerson" class="com.myspring.factory.PersonStaticFactory" factory-method="getInstance">
+    <bean id="staticFactoryPerson" class="com.myspring.annotation.factory.PersonStaticFactory" factory-method="getInstance">
         <constructor-arg value="XiaoMing"></constructor-arg>
     </bean>
 
     <!--实例工厂:本质上相当于 先创建工厂实例，然后调用工厂实例的方法，我们定义出来的getInstance-->
-    <bean id="instanceFactoryBean" class="com.myspring.factory.PersonInstanceFactory"></bean>
+    <bean id="instanceFactoryBean" class="com.myspring.annotation.factory.PersonInstanceFactory"></bean>
     <bean id="instanceBeanPerson" class="com.myspring.bean.Person" factory-bean="instanceFactoryBean" factory-method="getInstance">
         <constructor-arg value="XiaoEr"></constructor-arg>
     </bean>
 
     <!--使用factorybean创建实例-->
-    <bean id="MyFactoryBean" class="com.myspring.factory.MyFactoryBean"></bean>
+    <bean id="MyFactoryBean" class="com.myspring.annotation.factory.MyFactoryBean"></bean>
 
     <!--Bean对象的初始化和销毁;其实相当于就是一个初始化和销毁的事件，然后触发事件时调用我们定义的方法-->
     <!--如果bean是单例Singleton，容器在启动的时候会创建好，容器关闭的时候会销毁创建的bean
@@ -177,7 +177,7 @@
     <bean id="initAndDestoryBean" class="com.myspring.bean.Person" init-method="init" destroy-method="destory"></bean>
 
     <!--自定义增强类，MyBeanProcessor-->
-    <bean id="MyBeanProcessor" class="com.myspring.bean.MyBeanProcessor"></bean>
+    <bean id="MyBeanProcessor" class="com.myspring.annotation.bean.MyBeanProcessor"></bean>
     
     <!--定义第三方组件Bean-->
     <!--<bean id="MyDruidBean" class="com.alibaba.druid.pool.DruidDataSource">

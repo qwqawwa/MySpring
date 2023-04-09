@@ -1,10 +1,8 @@
-package com.myspring.controller;
+package com.myspring.annotation.controller;
 
-import com.myspring.service.PersonService;
-import com.myspring.service.PersonService2;
+import com.myspring.annotation.service.PersonService;
+import com.myspring.annotation.service.PersonService2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;

@@ -1,6 +1,6 @@
-package com.myspring.service;
+package com.myspring.annotation.service;
 
-import com.myspring.dao.PersonDao;
+import com.myspring.annotation.dao.PersonDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

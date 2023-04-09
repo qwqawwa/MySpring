@@ -1,8 +1,7 @@
-package com.myspring.service;
+package com.myspring.annotation.service;
 
-import com.myspring.dao.BaseDao;
+import com.myspring.annotation.dao.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @ClassName BaseService

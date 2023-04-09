@@ -1,4 +1,4 @@
-package com.myspring.bean;
+package com.myspring.annotation.bean;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;

@@ -1,6 +1,6 @@
-package com.myspring.service;
+package com.myspring.annotation.service;
 
-import com.myspring.bean.Student;
+import com.myspring.annotation.bean.Student;
 import org.springframework.stereotype.Service;
 
 /**

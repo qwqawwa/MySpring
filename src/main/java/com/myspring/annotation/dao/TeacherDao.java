@@ -1,6 +1,6 @@
-package com.myspring.dao;
+package com.myspring.annotation.dao;
 
-import com.myspring.bean.Teacher;
+import com.myspring.annotation.bean.Teacher;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -1,4 +1,4 @@
-package com.myspring.dao;
+package com.myspring.annotation.dao;
 
 /**
  * @ClassName BaseDao

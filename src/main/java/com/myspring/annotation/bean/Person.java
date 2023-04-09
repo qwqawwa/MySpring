@@ -1,4 +1,6 @@
-package com.myspring.bean;
+package com.myspring.annotation.bean;
+
+import com.myspring.annotation.bean.Address;
 
 import java.util.*;
 
@@ -102,9 +104,9 @@ public class Person {
     }
 
     /*无参构造函数要进行保留
-    * 因为Spring从容器中获取对象的时候，底层实现是通过反射来进行的
-    *         Class personClass = Person.class;
-    *         personClass.getDeclaredConstructor().newInstance()*/
+     * 因为Spring从容器中获取对象的时候，底层实现是通过反射来进行的
+     *         Class personClass = Person.class;
+     *         personClass.getDeclaredConstructor().newInstance()*/
 
     public Person() {
         System.out.println("Person被创建");
