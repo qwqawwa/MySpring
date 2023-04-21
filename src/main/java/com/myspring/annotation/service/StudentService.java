@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * @ClassName StudentService
- * @Description TODO
+ * @Description 泛型依赖注入demo:StudentService
  * @Author Cheng Liu
- * @Date 03/11/2022 9:01 PM
+ * @Date 16/04/2023 10:43 AM
  */
 @Service
-public class StudentService extends BaseService<Student> {
-
+public class StudentService extends BaseService<Student> { //这里必须继承抽象类，并且指定泛型实现的数据类型
+    //本身继承的抽象类里有一些默认的实现
 }

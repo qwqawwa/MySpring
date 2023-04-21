@@ -36,4 +36,10 @@ public class PersonService {
     }
 
 
+    @Override
+    public String toString() {
+        return "PersonService{" +
+                "personDao=" + personDao +
+                '}';
+    }
 }

@@ -1,6 +1,4 @@
 import com.myspring.annotation.controller.PersonController;
-import com.myspring.annotation.service.StudentService;
-import com.myspring.annotation.service.TeacherService;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -51,12 +49,12 @@ public class MyTestSpringJunit {
         personConResource.saveResource();
 
         /*测试泛型依赖注入
-        * 需要补充demo*/
+        * 需要补充demo*//*
         StudentService studentService = context.getBean("studentService",StudentService.class);
         studentService.save();
 
         TeacherService teacherService = context.getBean("teacherService",TeacherService.class);
-        teacherService.save();
+        teacherService.save();*/
 
     }
 }
