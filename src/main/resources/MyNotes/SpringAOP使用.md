@@ -12,7 +12,7 @@
 ### AOP的通知类型
 after和afterReturning的区别：
 after是目标方法执行完自后；afterReturning是目标方法返回值之后。
-after比afterReturning执行更晚
+afterReturning比after执行更晚
 
 ### AOP的应用场景
 * 日志管理

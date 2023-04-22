@@ -1,8 +1,6 @@
 
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 O
 src/test/java/MyTestSpring.java,6\5\65439effd2a2319c78d851f507107194515bafce
 p
@@ -13,8 +11,6 @@ v
 Fsrc/main/java/com/myspring/annotation/factory/PersonStaticFactory.java,f\5\f5c66042be4126f503507fee838b5fc3cf199097
 p
 @src/main/java/com/myspring/annotation/service/PersonService.java,0\a\0ab48500207e7d1ab255b732111788f9acf5d164
-v
-Fsrc/main/java/com/myspring/annotation/controller/PersonController.java,2\7\27bcb9a3c617164f34079582b919184f51b9edc9
 m
 =src/main/java/com/myspring/annotation/service/DogService.java,f\1\f17b08fe6a679f9d89e85427965aec5431018c86
 p
@@ -47,5 +43,25 @@ q
 Asrc/main/java/com/myspring/annotation/service/StudentService.java,0\c\0c2370748e7fcc0c67810aa643177e89c9bbc6b0
 q
 Asrc/main/java/com/myspring/annotation/service/TeacherService.java,c\6\c61a23784f5c4c85d1a3e58919c20965319c4fde
+x
+Hsrc/main/java/com/myspring/dynamicbind/mock/controller/MyController.java,e\c\ec416cbff344abccc2d5eece51566a607ca13a05
+v
+Fsrc/main/java/com/myspring/dynamicbind/mock/proxy/CalculatorProxy.java,e\3\e34e9d5d278988c1f84683ee17986916fca92547
 \
 ,src/test/java/annotation/AnnotationTest.java,7\a\7aedd208fe7324caa2fa848d1c42e2e939e582d7
+g
+7src/main/java/com/myspring/aop/service/ICalculator.java,8\8\882e80314a55e56c1cf2a1277c881a819dca2360
+k
+;src/main/java/com/myspring/aop/controller/MyController.java,6\4\641187663658ed3a7753adaff64d3315e5f87e69
+N
+src/test/java/aop/AopTest.java,f\6\f68e85c65f90ab9568b897ded4b207c01ac94f48
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+v
+Fsrc/main/java/com/myspring/annotation/controller/PersonController.java,2\7\27bcb9a3c617164f34079582b919184f51b9edc9
+h
+8src/main/java/com/myspring/aop/service/MyCalculator.java,e\9\e956fb01f7ba70cd3def4c5770c466efdb601470
+u
+Esrc/main/java/com/myspring/dynamicbind/mock/service/MyCalculator.java,6\6\6643f6885b520bf6c1aa16ada4bcff0a344eef18
+`
+0src/main/java/com/myspring/aop/util/LogUtil.java,0\5\050e4098a03756541247ce20b275c35953211256
