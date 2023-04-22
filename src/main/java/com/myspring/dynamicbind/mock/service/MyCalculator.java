@@ -1,6 +1,4 @@
-package com.myspring.aop.mock.service;
-
-import java.lang.reflect.Method;
+package com.myspring.dynamicbind.mock.service;
 
 /**
  * @ClassName MyCalculator

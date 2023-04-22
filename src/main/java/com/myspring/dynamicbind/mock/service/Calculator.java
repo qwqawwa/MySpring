@@ -1,4 +1,4 @@
-package com.myspring.aop.mock.service;
+package com.myspring.dynamicbind.mock.service;
 
 /**
  * 动态代理模拟：计算器接口

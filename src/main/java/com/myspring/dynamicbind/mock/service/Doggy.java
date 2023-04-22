@@ -1,4 +1,4 @@
-package com.myspring.aop.mock.service;
+package com.myspring.dynamicbind.mock.service;
 
 /**
  * @ClassName Doggy

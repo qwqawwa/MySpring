@@ -1,13 +1,11 @@
-package com.myspring.aop.mock.controller;
+package com.myspring.dynamicbind.mock.controller;
 
-import com.myspring.aop.mock.proxy.CalculatorProxy;
-import com.myspring.aop.mock.service.Animal;
-import com.myspring.aop.mock.service.Calculator;
-import com.myspring.aop.mock.service.Doggy;
-import com.myspring.aop.mock.service.MyCalculator;
+import com.myspring.dynamicbind.mock.proxy.CalculatorProxy;
+import com.myspring.dynamicbind.mock.service.Animal;
+import com.myspring.dynamicbind.mock.service.Calculator;
+import com.myspring.dynamicbind.mock.service.Doggy;
+import com.myspring.dynamicbind.mock.service.MyCalculator;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Proxy;
 
 /**
  * @ClassName MyController

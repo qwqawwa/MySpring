@@ -7,3 +7,15 @@
 
 ### 2.动态代理
 
+### AOP的相关概念
+
+### AOP的通知类型
+after和afterReturning的区别：
+after是目标方法执行完自后；afterReturning是目标方法返回值之后。
+after比afterReturning执行更晚
+
+### AOP的应用场景
+* 日志管理
+* 权限认证
+* 安全检查
+* 事务管理（事务控制/事务记录）

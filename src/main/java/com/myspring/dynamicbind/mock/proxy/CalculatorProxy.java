@@ -1,6 +1,4 @@
-package com.myspring.aop.mock.proxy;
-
-import com.myspring.aop.mock.service.Calculator;
+package com.myspring.dynamicbind.mock.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
