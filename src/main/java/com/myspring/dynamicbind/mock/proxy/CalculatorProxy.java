@@ -20,7 +20,7 @@ public class CalculatorProxy {
         this.proxyTarget = proxyTarget;
     }
 
-    public static Object getProxy(Object proxyTarget) { //这里写接口，真正使用时实参传实现类，动态绑定
+    public static Object getProxy(Object proxyTarget) { //这里写接口/Object，真正使用时实参传实现类，动态绑定
 
         //通过反射拿到calculator的类加载器
         ClassLoader classLoader = proxyTarget.getClass().getClassLoader();

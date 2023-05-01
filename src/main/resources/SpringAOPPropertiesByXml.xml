@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+    <!--使用xml的方式定义AOP-->
+
+    <!--1.首先把用到的bean定义出来-->
+    <bean id="logUtil" class="com.myspring.aop.util.LogUtil"></bean>
+    <bean id="securityUtil" class="com.myspring.aop.util.SecurityUtil"></bean>
+    <bean id="myCalculator" class="com.myspring.aop.service.MyCalculator"></bean>
+
+    <aop:config>
+        <!--2.定义切面类-->
+        <aop:aspect ref="logUtil">
+            <!--3.定义切入点 通知类型-->
+            <!--pointcut就像注解写法一样，既可以1.用pointcut写引用的表达式方法，2.pointcut也可以直接写表达式 3.用pointcutref-->
+            <aop:pointcut id="myTestPointcut" expression="execution( int com..MyCalculator.add(.. ))
+             || execution(int com..MyCalculator.*(.. ))"/><!--可以写某个切面类里边，也可以写切面类外面-->
+            <aop:before method="start"
+                        pointcut="com.myspring.aop.util.LogUtil.pointExpression2()"></aop:before><!--1.用pointcut写引用的表达式方法-->
+            <aop:after method="stop" pointcut="execution( int com..MyCalculator.add(.. )) ||
+            execution(int com..MyCalculator.*(.. ))"></aop:after><!--2.pointcut也可以直接写表达式-->
+            <!--after-returning还要额外定义returning参数-->
+            <aop:after-returning method="resultReturn" pointcut-ref="myTestPointcut"
+                                 returning="result"></aop:after-returning><!--3.用pointcutref-->
+            <!--after-throwing还要额外定义throwing参数-->
+            <aop:after-throwing method="exceptionThrow" pointcut="com.myspring.aop.util.LogUtil.pointExpression2()"
+                                throwing="exception"></aop:after-throwing>
+            <aop:around method="recordLog" pointcut="com.myspring.aop.util.LogUtil.pointExpression2()"></aop:around>
+        </aop:aspect>
+
+        <aop:aspect ref="securityUtil">
+            <aop:before method="start" pointcut="com.myspring.aop.util.LogUtil.pointExpression()"></aop:before>
+            <aop:after method="stop" pointcut="com.myspring.aop.util.LogUtil.pointExpression()"></aop:after>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
