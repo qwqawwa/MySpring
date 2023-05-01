@@ -34,7 +34,6 @@
             <aop:around method="recordLog" pointcut="com.myspring.aop.util.LogUtil.pointExpression2()"></aop:around>
         </aop:aspect>
 
-
         <aop:aspect ref="securityUtil">
             <aop:before method="start" pointcut="com.myspring.aop.util.LogUtil.pointExpression()"></aop:before>
             <aop:after method="stop" pointcut="com.myspring.aop.util.LogUtil.pointExpression()"></aop:after>
