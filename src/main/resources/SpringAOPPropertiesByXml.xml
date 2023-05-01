@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd
 ">
-    <!--使用xml的方式定义AOP-->
+    <!--使用xml的方式定义AOP -->
 
     <!--1.首先把用到的bean定义出来-->
     <bean id="logUtil" class="com.myspring.aop.util.LogUtil"></bean>
