@@ -9,7 +9,7 @@
     <!--bean标签：标识要创建的bean对象
        id：在容器里bean的唯一标识
        class：标识要创建bean对象的全类名-->
-    <bean id="person" class="com.myspring.bean.Person">
+    <bean id="person" class="com.myspring.xmlconfig.bean.Person">
         <!--property标签：给bean里的属性赋值使用property标签
                name标识属性名称,name的内容，取决于setXXX方法中set之后的内容首字母小写
                value标识属性值
@@ -20,16 +20,16 @@
         <property name="gender" value="男"></property>
     </bean>
 
-    <bean id="person6" class="com.myspring.bean.Person">
+    <bean id="person6" class="com.myspring.xmlconfig.bean.Person">
         <property name="id" value="6"></property>
         <property name="name" value="person6"></property>
         <property name="gender" value="男6"></property>
         <property name="age" value="6"></property>
         <!--property定义数组：给数组赋值-->
         <!--写法1-->
-<!--
-        <property name="hobbies" value="Q,Book,Dog"></property>
--->
+        <!--
+                <property name="hobbies" value="Q,Book,Dog"></property>
+        -->
         <!--写法2-->
         <property name="hobbies">
             <array>
@@ -48,7 +48,7 @@
         <property name="lists">
             <list>
                 <!--在list里定义bean对象，写法1-->
-                <bean class="com.myspring.annotation.bean.Address">
+                <bean class="com.myspring.xmlconfig.bean.Address">
                     <property name="city" value="榆林"></property>
                     <property name="town" value="名州镇"></property>
                 </bean>
@@ -82,7 +82,7 @@
                 <entry key="ObjectKey1" value-ref="address"></entry>
                 <!--value 为object,Object来源是Map中自定义的，不是从IOC容器中已经定义的bean里引用的；所以IOC容器用context.getBean是获取不到的-->
                 <entry key="ObjectKey2">
-                    <bean class="com.myspring.bean.Person">
+                    <bean class="com.myspring.xmlconfig.bean.Person">
                         <property name="id" value="2"></property>
                         <property name="name" value="Map测试"></property>
                     </bean>
@@ -116,27 +116,27 @@
         </property>
     </bean>
 
-    <bean id="address" class="com.myspring.annotation.bean.Address">
+    <bean id="address" class="com.myspring.xmlconfig.bean.Address">
         <property name="city" value="成都"></property>
         <property name="town" value="三台"></property>
     </bean>
 
     <!--可以使用abstract定义抽象bean,抽象bean无法实例化，无法使用context.getBean获取-->
-    <bean id="parentBean" class="com.myspring.annotation.bean.Address" abstract="false">
+    <bean id="parentBean" class="com.myspring.xmlconfig.bean.Address" abstract="false">
         <property name="city" value="成都"></property>
         <property name="town" value="三台"></property>
     </bean>
 
     <!--bean定义中 可以通过parent标签来获取父类的属性值-->
-    <bean id="sonBean" class="com.myspring.annotation.bean.Address" parent="parentBean">
+    <bean id="sonBean" class="com.myspring.xmlconfig.bean.Address" parent="parentBean">
         <property name="city" value="榆林"></property>
     </bean>
 
     <!--当bean对象被创建时，顺序=在xml中配置的顺序，谁在先谁先被创建
     怎么改：可以使用depends-on属性来进行
     但是，一般工作中不需要在意这个顺序，原因是不管谁先谁后，都会在“bean对象创建完成之后”再被赋值-->
-    <bean id="beanTwo" class="com.myspring.annotation.bean.Address" depends-on="beanOne"></bean>
-    <bean id="beanOne" class="com.myspring.bean.Person"></bean>
+    <bean id="beanTwo" class="com.myspring.xmlconfig.bean.Address" depends-on="beanOne"></bean>
+    <bean id="beanOne" class="com.myspring.xmlconfig.bean.Person"></bean>
 
     <!--bean的作用域：singleton、prototype、request、session
     使用scope属性定义
@@ -147,7 +147,7 @@
     singleton：默认的单例对象
         在容器启动完成之前就已经创建好对象
         获取的所有对象都是同一个-->
-    <bean id="singletonPerson" class="com.myspring.bean.Person" scope="singleton"></bean>
+    <bean id="singletonPerson" class="com.myspring.xmlconfig.bean.Person" scope="singleton"></bean>
 
     <!--利用工厂模式创建Bean-->
     <!--总结
@@ -164,7 +164,8 @@
 
     <!--实例工厂:本质上相当于 先创建工厂实例，然后调用工厂实例的方法，我们定义出来的getInstance-->
     <bean id="instanceFactoryBean" class="com.myspring.annotation.factory.PersonInstanceFactory"></bean>
-    <bean id="instanceBeanPerson" class="com.myspring.bean.Person" factory-bean="instanceFactoryBean" factory-method="getInstance">
+    <bean id="instanceBeanPerson" class="com.myspring.xmlconfig.bean.Person" factory-bean="instanceFactoryBean"
+          factory-method="getInstance">
         <constructor-arg value="XiaoEr"></constructor-arg>
     </bean>
 
@@ -174,7 +175,8 @@
     <!--Bean对象的初始化和销毁;其实相当于就是一个初始化和销毁的事件，然后触发事件时调用我们定义的方法-->
     <!--如果bean是单例Singleton，容器在启动的时候会创建好，容器关闭的时候会销毁创建的bean
         如果bean是多例Prototype，获取的时候创建对象，销毁的时候不会有任何的调用-->
-    <bean id="initAndDestoryBean" class="com.myspring.bean.Person" init-method="init" destroy-method="destory"></bean>
+    <bean id="initAndDestoryBean" class="com.myspring.xmlconfig.bean.Person" init-method="init"
+          destroy-method="destory"></bean>
 
     <!--自定义增强类，MyBeanProcessor-->
     <bean id="MyBeanProcessor" class="com.myspring.annotation.bean.MyBeanProcessor"></bean>
@@ -190,7 +192,7 @@
     <!--前置项：需要定义xml命名空间：context;可以在官网查xmlns:context-->
     <!--读取properties文件里的配置-->
     <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
-    <bean id="propertiesBean" class="com.myspring.bean.Person">
+    <bean id="propertiesBean" class="com.myspring.xmlconfig.bean.Person">
         <property name="id" value="100"></property>
         <property name="name" value="${jdbc.username}"></property>
     </bean>
@@ -206,11 +208,11 @@
      byType：按照类型进行装配,以属性的类型作为查找依据去容器中找到这个组件，如果有多个类型相同的bean对象，那么会报异常，如果找不到则装配null
 
      constructor：按照构造器进行装配，先按照有参构造器参数的类型进行装配，没有就直接装配null；如果按照类型找到了多个，那么就使用参数名作为id继续匹配，找到就装配，找不到就装配null-->
-    <bean id="autowireBean" class="com.myspring.bean.Person" autowire="byName"></bean>
+    <bean id="autowireBean" class="com.myspring.xmlconfig.bean.Person" autowire="byName"></bean>
 
 
     <!--使用Spring提供的语法：SpEL Spring Expression Language-->
-    <bean id="SpELBean" class="com.myspring.bean.Person">
+    <bean id="SpELBean" class="com.myspring.xmlconfig.bean.Person">
         <!--可以支持运算符-->
         <property name="id" value="#{1*3+5}"></property>
         <!--可以调用其他bean的属性-->

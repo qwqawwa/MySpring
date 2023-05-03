@@ -1,5 +1,7 @@
-import com.myspring.annotation.bean.Address;
-import com.myspring.annotation.bean.Person;
+package xmconfig;
+
+import com.myspring.xmlconfig.bean.Address;
+import com.myspring.xmlconfig.bean.Person;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -21,7 +23,7 @@ public class MyTestSpring {
         *   该类有两个实现类：
         *   ClassPathXmlApplicationContext ：表示通过xml配置文件的路径来读取数据
         *   FileSystemXmlApplicationContext：标识通过文件系统读取数据（使用较少）*/
-        ApplicationContext context = new ClassPathXmlApplicationContext("SpringProperties.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("xmlconfig/SpringProperties.xml");
 
         Person persopn = context.getBean("person", Person.class);
         System.out.println(persopn);
