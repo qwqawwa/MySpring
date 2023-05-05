@@ -1,13 +1,17 @@
 package aoptransaction;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.myspring.aoptransaction.jdbctempdemo.bean.Emp;
+import com.myspring.aoptransaction.jdbctempdemo.dao.EmpDAO;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @projectName: MySpring
@@ -87,6 +91,30 @@ public class JDBCTest {
         //delete操作，使用的api还是update(SQL语句，可变参数)，其实增删改用的api都是update
         int result = jdbcTemplate.update(updateSQL, "xiaohong");
         System.out.println(result);
+    }
+
+    /**
+     * 使用JDBCTemplate:查
+     */
+    @Test
+    public void SelectTest() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(XML_PATH);
+        JdbcTemplate jdbcTemplate = context.getBean("jdbcTemplate", JdbcTemplate.class);
+
+        String selectSQL = "SELECT * FROM EMP WHERE SAL > ?";//？为占位符
+        //查找操作使用的是query方法
+        List<Emp> result = jdbcTemplate.query(selectSQL, new BeanPropertyRowMapper<>(Emp.class), 800);
+        System.out.println(result);
+    }
+
+    @Test
+    public void DaoTest() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(XML_PATH);
+        EmpDAO empDAO = context.getBean("empDAO", EmpDAO.class);
+        Emp emp = new Emp();
+        emp.setEmpno(100);
+        emp.setEname("大蓝");
+        empDAO.save(emp);
     }
 
 

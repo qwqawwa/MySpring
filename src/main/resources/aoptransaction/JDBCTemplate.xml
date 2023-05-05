@@ -8,6 +8,8 @@
        http://www.springframework.org/schema/context/spring-context.xsd
 ">
 
+    <context:component-scan base-package="com.myspring.aoptransaction"></context:component-scan>
+
     <context:property-placeholder location="aoptransaction/db.properties"></context:property-placeholder>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">

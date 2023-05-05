@@ -1,5 +1,7 @@
 package com.myspring.aoptransaction.jdbctempdemo.bean;
 
+import java.util.Date;
+
 /**
  * @projectName: MySpring
  * @package: com.myspring.aoptransaction.jdbctempdemo.bean
@@ -10,23 +12,40 @@ package com.myspring.aoptransaction.jdbctempdemo.bean;
  */
 public class Emp {
 
-    private Integer empno;
+    private Integer empno1;
     private String ename;
     private String job;
 
-    public Emp(Integer empno, String ename, String job) {
-        this.empno = empno;
-        this.ename = ename;
-        this.job = job;
+    private Integer mgr;
+
+    private Date hiredate123;
+
+    private Double sal;
+
+    private Double comm;
+
+    private Integer deptno;
+
+    public Emp() {
     }
 
+    public Emp(Integer empno, String ename, String job, Integer mgr, Date hiredate, Double sal, Double comm, Integer deptno) {
+        this.empno1 = empno;
+        this.ename = ename;
+        this.job = job;
+        this.mgr = mgr;
+        this.hiredate123 = hiredate;
+        this.sal = sal;
+        this.comm = comm;
+        this.deptno = deptno;
+    }
 
     public Integer getEmpno() {
-        return empno;
+        return empno1;
     }
 
     public void setEmpno(Integer empno) {
-        this.empno = empno;
+        this.empno1 = empno;
     }
 
     public String getEname() {
@@ -48,7 +67,7 @@ public class Emp {
     @Override
     public String toString() {
         return "Emp{" +
-                "empno=" + empno +
+                "empno=" + empno1 +
                 ", ename='" + ename + '\'' +
                 ", job='" + job + '\'' +
                 '}';
