@@ -30,6 +30,14 @@
     - [4.1. demo](#41-demo)
         - [4.1.1. 引入的pom](#411-引入的pom)
         - [4.1.2. java template好处](#412-java-template好处)
+    - [4.2. 事务的特性](#42-事务的特性)
+    - [4.3. 编程式事务VS声明式事务](#43-编程式事务vs声明式事务)
+    - [4.4. @Transactional实际使用](#44-transactional实际使用)
+        - [4.4.1. xml中引入事务管理器](#441-xml中引入事务管理器)
+        - [4.4.2. 使用try catch](#442-使用try-catch)
+        - [4.4.3. @Transactional注解的属性](#443-transactional注解的属性)
+        - [数据库的隔离级别](#数据库的隔离级别)
+        - [传播特性](#传播特性)
 - [5. 常见问题](#5-常见问题)
     - [5.1. 报错找不到合适的bean](#51-报错找不到合适的bean)
     - [5.2. MySQL的POM版本](#52-mysql的pom版本)
@@ -341,6 +349,125 @@ return 100;//修改访问修饰符和返回值的目的，是测试通知方法�
 ### 4.1.1. 引入的pom
 
 ### 4.1.2. java template好处
+
+## 4.2. 事务的特性
+
+* 原子性 事务是数据库的逻辑工作单位，它对数据库的修改操作**为一个整体，不可分割**：要么全不执行，要么都执行成功
+* 一致性 官网上事务一致性的概念是：事务必须使数据库从一个一致性状态变换到另外一个一致性状态。换一种方式理解就是：*
+  *事务按照预期生效，所有的数据的状态是预期一致的、正确的状态**。
+    + 举例说明：张三向李四转100元，转账前和转账后的数据是正确的状态，这就叫一致性，如果出现张三转出100元，李四账号没有增加100元这就出现了数据错误，就没有达到一致性。
+* 隔离性 多个用户**并发**访问数据库时，数据库为每个用户各自开启的事务，互相之间不能有影响，*
+  *每个事务不能被其他事务的操作数据所干扰，多个并发事务之间互相隔离**
+* 持久性 事务一旦被提交，该事务所对数据库所作的更改便持久的保存在数据库之中，并不会被回滚。
+
+```
+结合实际的场景示例：
+一个转账操作： 张三转账给李四
+如果代码正常运行的话，那么张三会扣减金额，李四会增加金额，这就确保的原子性；
+
+一旦数据保存到数据库之后，数据就永久被改变了，这就是持久性；
+
+事务前后，数据的状态也是我们所期望的状态，这就保证了数据的一致性；
+
+如果在事务未commit的话，那么在另外一个线程发起查询请求的话，那么并不能查看到最近的数据（这里未进行编码），这就是隔离性。
+```
+
+## 4.3. 编程式事务VS声明式事务
+
+* 编程式事务：**通过代码的方式定义事务的处理**
+  ：基于底层的API，如PlatformTransactionManager、TransactionDefinition和TransactionTemplate等核心接口，开发者完全可以通过编程的方式进行事务管理。
+  编程式事务需要开发者在代码中手动管理事务的开启、提交和回滚等操作。例如：
+
+```java
+public void test() {
+    
+// 开发者可以通过API自己控制事务
+TransactionDefinition def = new DefaultTransactionDefinition();
+TransactionStatus status = transactionManager.getTransaction(def);
+try {
+// 事务操作
+// 事务提交
+transactionManager.commit(status);
+} catch (DataAccessException e) {
+// 事务提交
+transactionManager.rollback(status);
+throw e;
+}
+}
+```
+
+* 声明式事务：开发者可以在配置（主要是注解、xml）的帮助下来管理事务，而不需要依赖底层API来进行编码
+
+```java
+@Transactional //这里注解就是配置声明
+public void test() {
+// 事务操作
+}
+```
+
+## 4.4. @Transactional实际使用
+
+### 4.4.1. xml中引入事务管理器
+
+1. 将事务管理器TransactionManager引入Spring容器中，因为是外部对象，所以直接在xml里定义引入的bean
+2. 引入TransactionManager时，声明dataSource属性
+
+```xml
+<!--1.将TransactionManager注册为SPring bean对象-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--2.注意此处还需要声明dataSource 属性-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+```
+
+3. 开启基于注解的事务管理器，使@Transactional生效
+
+```xml
+<!--3.开启基于注解的事务管理器，使@Transactional生效-->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+```
+
+4. 在方法上可以直接使用@Transactional注解即可
+
+```java
+ @Transactional
+public void checkout(String username,int id){
+        bookDao.updateStock(id);
+        int price=bookDao.getPrice(id);
+        bookDao.updateBalance(username,price);
+        }
+```
+
+### 4.4.2. 使用try catch
+
+在使用try catch时，如果try块中的代码异常并被捕获，事务是否能正常处理数据？
+可以，因为try catch目的就是消化异常，所以对于代码而言是继续往下执行了的
+
+### 4.4.3. @Transactional注解的属性
+
+@Transactional的可用属性：
+
+1. propagation:传播特性
+2. isolation: 隔离级别
+3. timeout: 超时时间。单位为秒，超出设置时间后，则出异常，并回滚事务
+4. readonly: 设置只读事务。开启后就是事务运行期间，数据是只读的，不允许修改数据，否则出异常
+    + 适用场景：
+    + a.一个事务内比如执行多次查询，查询内容相同，为了数据一致性，打开只读事务
+    + b.都是查询操作，没有删除修改，也不需要删除修改，可以打开只读事务
+      建议是全部都是查询的情况下开启
+
+5. noRollbackFor: 设置哪些异常不回滚。配置具体的异常类之后，出现该异常，仍然执行完事务，不回滚数据
+   noRollbackForClassName:和noRollbackFor一样，只是填写的是 异常类的完全限定名，String类型名称
+   但是，和try catch类似的是，出异常的代码后面的数据处理逻辑不会执行
+
+6. RollbackFor: 设置哪些异常才进行回滚。配置具体的异常类之后，出现该异常，才回滚数据；否则仍然执行完事务不回滚
+   RollbackForClassName:和noRollbackFor一样，只是填写的是 异常类的完全限定名，String类型名称
+
+### 数据库的隔离级别
+
+### 传播特性
+
+Required: 如果设置的传播特性是Required，那么所有的事务都会统一成一个事务，一旦发生错误，所有的数据都要进行回滚
 
 # 5. 常见问题
 
