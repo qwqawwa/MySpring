@@ -52,18 +52,35 @@ public class BookService {
     //@Transactional(noRollbackForClassName = "java.lang.ArithmeticException")
     //@Transactional(rollbackForClassName={"java.io.FileNotFoundException"})
     //@Transactional(rollbackFor={ArithmeticException.class})
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void checkout(String username, int id) {
+
+        //库存减1
         bookDao.updateStock(id);
         int price = bookDao.getPrice(id);
+        //用户余额减去price数量
         bookDao.updateBalance(username, price);
-        //int i = 1 / 0;
+        int i = 1 / 0;
+        /*try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
         //FileInputStream fileInputStream = new FileInputStream("aa.txt");
+
     }
+
+    /*@Transactional
+    public void buyBook(int id){
+        //库存减1
+        bookDao.updateStock(id);
+    }*/
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void updatePrice(int id, int price) {
+        System.out.println("I'm in");
         bookDao.updatePrice(id, price);
-        int i = 1 / 0;
+        //int i = 1 / 0;
     }
 }

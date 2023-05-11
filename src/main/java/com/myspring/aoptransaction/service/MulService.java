@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileNotFoundException;
+
 /**
  * @projectName: MySpring
  * @package: com.myspring.aoptransaction.service
@@ -17,9 +19,14 @@ public class MulService {
     @Autowired
     private BookService bookService;
 
-    //@Transactional
+    @Transactional
     public void mulTx() {
-        bookService.checkout("zhangsan", 1);
-        bookService.updatePrice(1, 1000);
+
+        try {
+            bookService.checkout("zhangsan", 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        bookService.updatePrice(1, 1001);
     }
 }

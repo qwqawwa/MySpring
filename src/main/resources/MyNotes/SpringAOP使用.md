@@ -41,6 +41,7 @@
 - [5. 常见问题](#5-常见问题)
     - [5.1. 报错找不到合适的bean](#51-报错找不到合适的bean)
     - [5.2. MySQL的POM版本](#52-mysql的pom版本)
+- [待解决问题](#待解决问题)
 
 <!-- /TOC -->
 
@@ -467,7 +468,22 @@ public void checkout(String username,int id){
 
 ### 传播特性
 
-Required: 如果设置的传播特性是Required，那么所有的事务都会统一成一个事务，一旦发生错误，所有的数据都要进行回滚
+* PROPAGATION_REQUIRED: **如果不存在外层事务，就主动创建事务；否则使用外层事务**
+  如果设置的传播特性是Required，那么**所有的事务都会统一成一个事务**，一旦发生错误，所有的数据都要进行回滚
+* PROPAGATION_REQUIRES_NEW：总是主动开启事务（=**就是一个独立的事务**）；如果存在外层事务，就将外层事务挂起。（**执行事务时不受外层事务影响
+  **）
+* PROPAGATION_SUPPORTS：如果不存在外层事务，就不开启事务；否则使用外层事务（**没有外层事务就相当于不使用事务**）
+* PROPAGATION_NOT_SUPPORTED：**当前不支持事务**，如果存在外层事务，就将外层事务挂起。比如ServiceA.methodA的事务级别是PROPAGATION_REQUIRED
+  ，而ServiceB.methodB的事务级别是PROPAGATION_NOT_SUPPORTED
+  ，那么当执行到ServiceB.methodB时，ServiceA.methodA的事务挂起，而他以非事务的状态运行完，再继续ServiceA.methodA的事务。
+* PROPAGATION_NEVER：**不能在事务中运行，如果存在外层事务，则抛出异常**。假设ServiceA.methodA的事务级别是PROPAGATION_REQUIRED，
+  而ServiceB.methodB的事务级别是PROPAGATION_NEVER ，那么ServiceB.methodB就要抛出异常了。
+  使用场景：非事务方法，可以设置为Nerver
+* PROPAGATION_MANDATORY：**必须在一个事务中运行，如果不存在外层事务，就抛出异常**；否则使用外层事务。也就是说，他只能被一个父事务调用。否则，他就要抛出异常。
+*
+
+参考：https://blog.csdn.net/lfsf802/article/details/9417095
+https://juejin.cn/post/6844903938928427022
 
 # 5. 常见问题
 
@@ -480,3 +496,8 @@ A:经常出现配置看着没什么问题但是报错找不到合适的bean，�
 pom的8.X 对应的是mySQL 8的版本
 pom的6.X 对应的是mySQL 5.7以上的版本
 Pom的5.1 对应的是mySQL 5.7以下的版本
+
+# 待解决问题
+
+1. @Transactional注解，用noRollbackfor参数没什么用，而且生效的貌似是因为throw出去了异常，而不是这个参数
+2. 一个大的事务方法，包含两个子事务方法，子事务都是RequiresNew，但是看起来和执行顺序有关系，如果报异常的是第一个方法，则第二个方法就不会执行，也就不会修改数据提交事务了
